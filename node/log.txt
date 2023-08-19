@@ -1,9 +1,0 @@
-Sat Aug 19 2023 14:59:15 GMT+0330 (Iran Standard Time)[GET] path: /
-Sat Aug 19 2023 15:00:15 GMT+0330 (Iran Standard Time)[GET] path: /
-Sat Aug 19 2023 15:00:16 GMT+0330 (Iran Standard Time)[GET] path: /
-Sat Aug 19 2023 15:00:26 GMT+0330 (Iran Standard Time)[POST] path: /log
-Sat Aug 19 2023 15:00:27 GMT+0330 (Iran Standard Time)[POST] path: /log
-Sat Aug 19 2023 15:00:28 GMT+0330 (Iran Standard Time)[POST] path: /log
-Sat Aug 19 2023 15:00:30 GMT+0330 (Iran Standard Time)[GET] path: /
-Sat Aug 19 2023 15:00:31 GMT+0330 (Iran Standard Time)[POST] path: /log
-Sat Aug 19 2023 15:00:32 GMT+0330 (Iran Standard Time)[POST] path: /log

@@ -17,7 +17,14 @@ capabilities built on Apache Lucene. By that means, Elasticsearch is perfect for
 
 ## Kibana
 
-Kibana is your window into the Elastic Stack. Specifically, it's a browser-based analytics and search dashboard for Elasticsearch.
+Kibana is your window into the Elastic Stack. Specifically, it's a browser-based analytics and search dashboard for Elasticsearch. In order
+to work with it you need to use ```KQL``` (aka Kibana Query Language).
+
+### KQL
+
+KQL (Kibana Query Language) is a query language available in Kibana, that will be handled by Kibana and converted into Elasticsearch Query DSL.
+Lucene is a query language directly handled by Elasticsearch. In nearly all places in Kibana, where you can provide a query you can see
+which one is used by the label on the right of the search box. Clicking on it allows you to disable KQL and switch to Lucene.
 
 ## Beats
 
@@ -37,3 +44,4 @@ that ingests data from a multitude of sources simultaneously, transforms it, and
 - [logz.io/elk](https://logz.io/blog/elasticsearch-tutorial/)
 - [elk-docker.io](https://elk-docker.readthedocs.io/)
 - [stackoverflow.com/how-to-export-logs](https://stackoverflow.com/questions/59622799/how-to-gather-logs-to-elasticsearch)
+- [www.timrose.de/kql-cheatsheet](https://www.timroes.de/kibana-search-cheatsheet)

@@ -55,6 +55,7 @@ that ingests data from a multitude of sources simultaneously, transforms it, and
 
 - [www.tutorialspoint.com](https://www.tutorialspoint.com/elasticsearch/index.htm)
 - [logz.io/elk](https://logz.io/blog/elasticsearch-tutorial/)
+- [logz.io/filebeat](https://logz.io/blog/filebeat-tutorial/)
 - [logz.io/elk/queries](https://logz.io/blog/elasticsearch-queries/)
 - [elk-docker.io](https://elk-docker.readthedocs.io/)
 - [stackoverflow.com/how-to-export-logs](https://stackoverflow.com/questions/59622799/how-to-gather-logs-to-elasticsearch)

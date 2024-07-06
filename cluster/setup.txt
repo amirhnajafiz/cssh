@@ -1,8 +1,0 @@
-# download
-wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch7.0.0-linux-x86_64.tar.gz
-
-# unzip
-tar -xzf elasticsearch-7.0.0-linux-x86_64.tar.gz
-
-# start
-./elasticsearch

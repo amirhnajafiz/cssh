@@ -19,7 +19,7 @@ curl -i -v 'https://ais.usvisa-info.com/en-am/niv/users/sign_in' \
   -H 'sec-ch-ua: "Google Chrome";v="123", "Not:A-Brand";v="8", "Chromium";v="123"' \
   -H 'sec-ch-ua-mobile: ?0' \
   -H 'sec-ch-ua-platform: "macOS"' \
-  --data-raw 'user%5Bemail%5D=najafizadeh21%40gmail.com&user%5Bpassword%5D=%26%24V%23*2YkPPZbYC2&policy_confirmed=1&commit=Sign+In' \
+  --data-raw '' \
   > login.txt
 
 # build token

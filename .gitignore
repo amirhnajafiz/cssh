@@ -1,0 +1,51 @@
+# Ignore object files and binary outputs
+*.o
+*.out
+*.exe
+
+# Ignore backup files
+*~
+*.bak
+
+# Ignore dependency files
+*.d
+
+# Ignore compiled shared libraries
+*.so
+*.a
+
+# Ignore temporary files created by the editor
+*.swp
+*.swo
+*.tmp
+
+# Ignore build directories
+build/
+bin/
+obj/
+out/
+
+# Ignore IDE/Editor-specific files
+# For Visual Studio
+.vscode/
+*.sln
+*.vcxproj
+*.user
+
+# For Eclipse
+.metadata/
+*.pydevproject
+
+# For Code::Blocks
+*.cbp
+*.depend
+*.layout
+
+# For JetBrains IDEs (CLion, etc.)
+.idea/
+
+# Ignore logs
+*.log
+
+# Ignore test output
+tests/*.log

@@ -14,8 +14,8 @@ int main()
 {
     struct sockaddr_in server; // server address information
 
-    int ss;      // a socket for accepting connections
-    int cs;      // a socket connected to client
+    int ss;              // a socket for accepting connections
+    int cs;              // a socket connected to client
     socklen_t clientlen; // length of client name
 
     // get a socket for accepting connections
@@ -62,8 +62,10 @@ int main()
                 client_handler(cs, 0, &client);
                 // close user socket after it is done
                 close(cs);
-            } else {
-                fprintf(stdout, "client accepted");
+            }
+            else
+            {
+                fprintf(stdout, "client accepted\n");
             }
         }
     }

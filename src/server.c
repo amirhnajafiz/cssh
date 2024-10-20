@@ -36,6 +36,8 @@ int start(unsigned short port)
         panic("failed to listen for input connections");
     }
 
+    fprintf(stdout, "cssh server is running on port %d ...", port);
+
     // server while loop
     while (true)
     {
@@ -44,6 +46,8 @@ int start(unsigned short port)
         namelen = sizeof(client);
         if ((ns = accept(ss, (struct sockaddr *)&client, &namelen)) == -1)
         {
+            // close socket server before panicing
+            close(ss);
             panic("failed to accept a client socket");
         }
         else
@@ -53,6 +57,10 @@ int start(unsigned short port)
             {
                 // in the child process, run the client handler function
                 client_handler(ns, namelen, &client);
+                // close user socket after it is done
+                close(ns);
+            } else {
+                fprintf(stdout, "client accepted");
             }
         }
     }

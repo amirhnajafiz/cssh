@@ -7,9 +7,29 @@
 // get user key and look for matching in authorized_leys
 // if matched, server sends a key using public key encryption
 // client uses that to communicate
+#include <stdio.h>
 #include <winsock2.h>
+#include <ws2tcpip.h>
 
 // client handler accepts a user socket and begins the SSH logic.
 void client_handler(int ns, int namelen, struct sockaddr *client) {
+    char client_ip[INET_ADDRSTRLEN];
+    int client_port;
 
+    struct sockaddr_in client_info;
+    int client_info_len = sizeof(client_info);
+
+    // get peer data
+    int result;
+    if ((result = getpeername(client, (struct sockaddr*)&client_info, &client_info_len)) == SOCKET_ERROR) {
+        fprintf(stderr, "failed to fetch client's data");
+        return;
+    }
+    
+    // fetch client ip and port data
+    inet_ntop(AF_INET, &(client_info.sin_addr), client_ip, INET_ADDRSTRLEN);
+    client_port = ntohs(client_info.sin_port);
+
+    fprintf(stdout, "IP address is: %s\n", client_ip);
+    fprintf(stdout, "port is: %d\n", client_port);
 }

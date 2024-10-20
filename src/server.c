@@ -36,12 +36,9 @@ int main()
     }
 
     // listen for input connections
-    if (listen(ss, 1) != 0)
-    {
-        panic("failed to listen for input connections");
-    }
+    listen(ss, 1);
 
-    fprintf(stdout, "cssh server is running on port %d ...", PORT);
+    fprintf(stdout, "cssh server is running on port %d ...\n", PORT);
 
     // server while loop
     while (true)

@@ -8,7 +8,7 @@ CFLAGS = -Wall -g -Iinclude
 TARGETS = server client
 
 # Source files
-SRCS_SERVER = src/server.c src/handler.c src/server.c
+SRCS_SERVER = src/server.c src/handler.c include/panic.c
 SRCS_CLIENT = src/client.c
 
 # Object files
@@ -38,3 +38,4 @@ $(BUILD_DIR)/%.o: src/%.c
 # Clean up build files
 clean:
 	rm -rf $(BIN_DIR) $(BUILD_DIR)
+	rm src/*.o include/*.o

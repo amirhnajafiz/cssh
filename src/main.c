@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <strings.h>
-#include "panic.h"
+#include "include/panic.h"
 #include "server.h"
 
 #define SCMD 1 // server command key

@@ -1,9 +1,10 @@
 #include <winsock2.h>
 #include <stdio.h>
-
 #include "panic.h"
 
-int new_server(unsigned short port)
+// start is used to create a new socket server that accepts
+// ssh requests and manages users commands.
+int start(unsigned short port)
 {
     struct sockaddr_in clinet; // clinet information
     struct sockaddr_in server; // server address information

@@ -13,24 +13,16 @@
 #include <arpa/inet.h>
 
 // client handler accepts a user socket and begins the SSH logic.
-void client_handler(int ns, int namelen, struct sockaddr *client) {
-    char client_ip[INET_ADDRSTRLEN];
-    int client_port;
+void client_handler(int ns, int namelen, struct sockaddr *client)
+{
+    char address[INET_ADDRSTRLEN];
 
-    struct sockaddr_in client_info;
-    int client_info_len = sizeof(client_info);
+    // cast client to sockaddr_in to access the IPv4 address and port
+    struct sockaddr_in *client_in = (struct sockaddr_in *)client;
 
-    // get peer data
-    int result;
-    if ((result = getpeername(client, (struct sockaddr*)&client_info, &client_info_len)) == SOCKET_ERROR) {
-        fprintf(stderr, "failed to fetch client's data");
-        return;
-    }
-    
-    // fetch client ip and port data
-    inet_ntop(AF_INET, &(client_info.sin_addr), client_ip, INET_ADDRSTRLEN);
-    client_port = ntohs(client_info.sin_port);
+    // convert IP address to human-readable form
+    inet_ntop(AF_INET, &client_in->sin_addr, address, sizeof(address));
 
-    fprintf(stdout, "IP address is: %s\n", client_ip);
-    fprintf(stdout, "port is: %d\n", client_port);
+    fprintf(stdout, "IP address is: %s\n", address);
+    fprintf(stdout, "port is: %d\n", ntohs(client_in->sin_port));
 }

@@ -1,6 +1,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <sys/socket.h>
+
 #include "handler.h"
 #include "panic.h"
 

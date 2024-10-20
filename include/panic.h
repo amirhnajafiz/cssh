@@ -1,1 +1,1 @@
-extern void panic(const char *message);
+void panic(const char *message);

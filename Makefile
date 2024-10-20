@@ -2,13 +2,13 @@
 CC = gcc
 
 # Compiler flags
-CFLAGS = -Wall -g -I include
+CFLAGS = -Wall -g -Iinclude
 
 # Target binaries
 TARGETS = server client
 
 # Source files
-SRCS_SERVER = src/main.c src/handler.c src/server.c
+SRCS_SERVER = src/server.c src/handler.c src/server.c
 SRCS_CLIENT = src/client.c
 
 # Object files

@@ -1,19 +1,22 @@
 #include <stdbool.h>
 #include <stdio.h>
+#include <sys/types.h>
 #include <sys/socket.h>
+#include <netinet/in.h>
 
 #include "handler.h"
 #include "panic.h"
 
-// start is used to create a new socket server that accepts
-// ssh requests and manages users commands.
-int start(unsigned short port)
+// server port
+#define PORT 2222
+
+int main()
 {
     struct sockaddr_in server; // server address information
 
     int ss;      // a socket for accepting connections
-    int ns;      // a socket connected to client
-    int namelen; // length of client name
+    int cs;      // a socket connected to client
+    socklen_t clientlen; // length of client name
 
     // get a socket for accepting connections
     if ((ss = socket(AF_INET, SOCK_STREAM, 0)) < 0)
@@ -22,8 +25,9 @@ int start(unsigned short port)
     }
 
     // bind the socket for the server address
+    memset(&server, 0, sizeof(server));
     server.sin_family = AF_INET;
-    server.sin_port = htons(port);
+    server.sin_port = htons(PORT);
     server.sin_addr.s_addr = INADDR_ANY;
 
     if (bind(ss, (struct sockaddr *)&server, sizeof(server)) < 0)
@@ -37,15 +41,16 @@ int start(unsigned short port)
         panic("failed to listen for input connections");
     }
 
-    fprintf(stdout, "cssh server is running on port %d ...", port);
+    fprintf(stdout, "cssh server is running on port %d ...", PORT);
 
     // server while loop
     while (true)
     {
         // accept a connection
         struct sockaddr_in client; // clinet information
-        namelen = sizeof(client);
-        if ((ns = accept(ss, (struct sockaddr *)&client, &namelen)) == -1)
+        clientlen = sizeof(client);
+
+        if ((cs = accept(ss, (struct sockaddr *)&client, &clientlen)) == -1)
         {
             // close socket server before panicing
             close(ss);
@@ -57,9 +62,9 @@ int start(unsigned short port)
             if (pid == 0)
             {
                 // in the child process, run the client handler function
-                client_handler(ns, namelen, &client);
+                client_handler(cs, 0, &client);
                 // close user socket after it is done
-                close(ns);
+                close(cs);
             } else {
                 fprintf(stdout, "client accepted");
             }

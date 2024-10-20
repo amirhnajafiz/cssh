@@ -8,8 +8,9 @@
 // if matched, server sends a key using public key encryption
 // client uses that to communicate
 #include <stdio.h>
-#include <winsock2.h>
-#include <ws2tcpip.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
 
 // client handler accepts a user socket and begins the SSH logic.
 void client_handler(int ns, int namelen, struct sockaddr *client) {

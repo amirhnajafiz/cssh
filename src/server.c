@@ -1,8 +1,8 @@
 #include <stdbool.h>
 #include <stdio.h>
-#include <winsock2.h>
+#include <sys/socket.h>
 #include "handler.h"
-#include "include/panic.h"
+#include "panic.h"
 
 // start is used to create a new socket server that accepts
 // ssh requests and manages users commands.

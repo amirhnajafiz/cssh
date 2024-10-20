@@ -1,5 +1,6 @@
 #include <winsock2.h>
 #include <stdio.h>
+#include <handler.h>
 #include "panic.h"
 
 // start is used to create a new socket server that accepts

@@ -7,3 +7,9 @@
 // get user key and look for matching in authorized_leys
 // if matched, server sends a key using public key encryption
 // client uses that to communicate
+#include <winsock2.h>
+
+// client handler accepts a user socket and begins the SSH logic.
+void client_handler(int ns, int namelen, struct sockaddr *client) {
+
+}

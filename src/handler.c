@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <string.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
@@ -60,6 +61,7 @@ void client_handler(int ns, socklen_t namelen, struct sockaddr *client)
         // execute the shell
         execlp("sh", "sh", NULL);
     } else {
+        char command[1024];
         char buffer[1024];
         ssize_t nbytes;
 
@@ -68,9 +70,13 @@ void client_handler(int ns, socklen_t namelen, struct sockaddr *client)
         close(out_pipe[1]);
 
         // read user inputs and write it to in_pipe[1]
-        while((nbytes = read(ns, buffer, sizeof(buffer))) > 0) {
-            write(in_pipe[1], buffer, nbytes);
-        }
+        while((nbytes = read(ns, command, sizeof(command) - 1)) > 0) {
+            command[nbytes-1] = '\n';
+            command[nbytes] = '\0';
+            fprintf(stdout, "running command: %s\n", command);
+
+            write(in_pipe[1], command, strlen(command));
+        } 
 
         // read from out_pipe[0] in to user socket
         while((nbytes = read(out_pipe[0], buffer, sizeof(buffer) - 1)) > 0) {

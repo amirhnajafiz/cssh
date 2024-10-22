@@ -31,17 +31,21 @@ void client_handler(int ns, socklen_t namelen, struct sockaddr *client)
     pid_t pid;
 
     // create a pseudo-terminal
-    if (forkpty(&master_fd, NULL, NULL, NULL) < 0) {
+    if (forkpty(&master_fd, NULL, NULL, NULL) < 0)
+    {
         fprintf(stderr, "failed to create pseduo-terminal");
         return;
     }
 
     // fork a child process to run shell
     pid = fork();
-    if (pid < 0) {
+    if (pid < 0)
+    {
         fprintf(stderr, "failed to create pseduo-terminal");
         return;
-    } else if (pid == 0) {
+    }
+    else if (pid == 0)
+    {
         // child process: replace the current process with the shell
         execl("/bin/bash", "bash", (char *)NULL);
         fprintf(stderr, "failed to create pseduo-terminal");
@@ -52,13 +56,18 @@ void client_handler(int ns, socklen_t namelen, struct sockaddr *client)
     char buffer[256];
     ssize_t n;
 
-    // read from client and forward to the shell
-    while ((n = read(client_sock, buffer, sizeof(buffer))) > 0) {
-        write(master_fd, buffer, n);
-    }
+    while (1)
+    {
+        // read from client and forward to the shell
+        while ((n = read(ns, buffer, sizeof(buffer))) > 0)
+        {
+            write(master_fd, buffer, n);
+        }
 
-    // read from shell and forward to client
-    while ((n = read(master_fd, buffer, sizeof(buffer))) > 0) {
-        write(ns, buffer, n);
+        // read from shell and forward to client
+        while ((n = read(master_fd, buffer, sizeof(buffer))) > 0)
+        {
+            write(ns, buffer, n);
+        }
     }
 }

@@ -41,45 +41,39 @@ void client_handler(int ns, socklen_t namelen, struct sockaddr *client)
 
     // fork a child process to run shell
     pid = fork();
-    if (pid < 0)
-    {
-        fprintf(stderr, "failed to create pseduo-terminal");
-        return;
-    }
-    else if (pid == 0)
+    if (pid == 0)
     {
         // redirect stdin to in_pipe[0]
         dup2(in_pipe[0], STDIN_FILENO);
         // redirect stdout and stderr to out_pipe[1]
         dup2(out_pipe[1], STDOUT_FILENO);
-        dup2(out_pipe[2], STDERR_FILENO);
-
-        // close unused pipe ends
-        close(in_pipe[1]);
-        close(out_pipe[0]);
+        dup2(out_pipe[1], STDERR_FILENO);
 
         // execute the shell
         execlp("sh", "sh", NULL);
+        exit(EXIT_FAILURE);
     } else {
         char command[1024];
         char buffer[1024];
         ssize_t nbytes;
 
-        // close unused pipe ends
-        close(in_pipe[0]);
-        close(out_pipe[1]);
-
         // read user inputs and write it to in_pipe[1]
-        while((nbytes = read(ns, command, sizeof(command) - 1)) > 0) {
-            command[nbytes-1] = '\n';
+        while ((nbytes = read(ns, command, sizeof(command) - 1)) > 0)
+        {
             command[nbytes] = '\0';
             fprintf(stdout, "running command: %s\n", command);
 
             write(in_pipe[1], command, strlen(command));
-        } 
+        }
+
+        fprintf(stdin, "waiting");
 
         // read from out_pipe[0] in to user socket
-        while((nbytes = read(out_pipe[0], buffer, sizeof(buffer) - 1)) > 0) {
+        while ((nbytes = read(out_pipe[0], buffer, sizeof(buffer) - 1)) > 0)
+        {
+            buffer[nbytes] = '\0';
+            fprintf(stdout, "got: %s\n", buffer);
+
             write(ns, buffer, nbytes);
         }
     }

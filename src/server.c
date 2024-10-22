@@ -8,7 +8,7 @@
 #include "panic.h"
 
 // server port
-#define PORT 2230
+#define PORT 2241
 
 int main()
 {

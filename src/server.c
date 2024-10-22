@@ -8,7 +8,7 @@
 #include "panic.h"
 
 // server port
-#define PORT 2222
+#define PORT 2225
 
 int main()
 {
@@ -36,7 +36,9 @@ int main()
     }
 
     // listen for input connections
-    listen(ss, 1);
+    if (listen(ss, 5) != 0) {
+        panic("failed to listen for connections");
+    }
 
     fprintf(stdout, "cssh server is running on port %d ...\n", PORT);
 

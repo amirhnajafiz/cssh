@@ -8,6 +8,8 @@
 // if matched, server sends a key using public key encryption
 // client uses that to communicate
 #include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
@@ -27,14 +29,13 @@ void client_handler(int ns, socklen_t namelen, struct sockaddr *client)
     fprintf(stdout, "port is: %d\n", ntohs(client_in->sin_port));
 
     // operations needed to open a shell
-    int master_fd;
+    // create two pipes
+    int in_pipe[2], out_pipe[2];
     pid_t pid;
 
-    // create a pseudo-terminal
-    if (forkpty(&master_fd, NULL, NULL, NULL) < 0)
+    if (pipe(in_pipe) == -1 || pipe(out_pipe) == -1)
     {
-        fprintf(stderr, "failed to create pseduo-terminal");
-        return;
+        fprintf(stderr, "failed to create pipes");
     }
 
     // fork a child process to run shell
@@ -46,28 +47,34 @@ void client_handler(int ns, socklen_t namelen, struct sockaddr *client)
     }
     else if (pid == 0)
     {
-        // child process: replace the current process with the shell
-        execl("/bin/bash", "bash", (char *)NULL);
-        fprintf(stderr, "failed to create pseduo-terminal");
-        return;
-    }
+        // redirect stdin to in_pipe[0]
+        dup2(in_pipe[0], STDIN_FILENO);
+        // redirect stdout and stderr to out_pipe[1]
+        dup2(out_pipe[1], STDOUT_FILENO);
+        dup2(out_pipe[2], STDERR_FILENO);
 
-    // parent process handles communication between client and shell
-    char buffer[256];
-    ssize_t n;
+        // close unused pipe ends
+        close(in_pipe[1]);
+        close(out_pipe[0]);
 
-    while (1)
-    {
-        // read from client and forward to the shell
-        while ((n = read(ns, buffer, sizeof(buffer))) > 0)
-        {
-            write(master_fd, buffer, n);
+        // execute the shell
+        execlp("sh", "sh", NULL);
+    } else {
+        char buffer[1024];
+        ssize_t nbytes;
+
+        // close unused pipe ends
+        close(in_pipe[0]);
+        close(out_pipe[1]);
+
+        // read user inputs and write it to in_pipe[1]
+        while((nbytes = read(ns, buffer, sizeof(buffer))) > 0) {
+            write(in_pipe[1], buffer, nbytes);
         }
 
-        // read from shell and forward to client
-        while ((n = read(master_fd, buffer, sizeof(buffer))) > 0)
-        {
-            write(ns, buffer, n);
+        // read from out_pipe[0] in to user socket
+        while((nbytes = read(out_pipe[0], buffer, sizeof(buffer) - 1)) > 0) {
+            write(ns, buffer, nbytes);
         }
     }
 }

@@ -59,7 +59,7 @@ int main()
             if (pid == 0)
             {
                 // in the child process, run the client handler function
-                client_handler(cs, 0, &client);
+                client_handler(cs, clientlen, &client);
                 // close user socket after it is done
                 close(cs);
             }
